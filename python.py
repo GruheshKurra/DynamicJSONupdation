@@ -25,6 +25,13 @@ update_sql = """
 with open(r"C:\Users\akagr\Downloads\Prototype.json") as f:
     data = json.load(f)
 
+# Load the existing JSON data from file (json2)
+with open(r"C:\Users\akagr\Downloads\prototypejsontojson.json", "r") as f:
+    json2 = json.load(f)
+
+# Dictionary to keep track of updated values
+updated_values = {}
+
 for env, env_config in data.items():
     for section, section_config in env_config.items():
         for key, value in section_config.items():
@@ -37,19 +44,23 @@ for env, env_config in data.items():
                 # Update existing row
                 values = (value, env, section, key)
                 cursor.execute(update_sql, values)
+                updated_values[(env, section, key)] = value
             else:
                 # Insert new row
                 values = (env, section, key, value)
                 cursor.execute(insert_sql, values)
 
-            # Modify the JSON data to reflect the database update
-            section_config[key] = value
-
+# Commit and close the database connection
 db.commit()
 db.close()
 
-output_file_path = r"C:\Users\akagr\Downloads\prototypejsontojson.json"
-with open(output_file_path, "w") as f:
-    json.dump(data, f, indent=2)
+# Update json2 with the data from the database
+for (env, section, key), value in updated_values.items():
+    if env in json2 and section in json2[env] and key in json2[env][section]:
+        json2[env][section][key] = value
 
-print("Database and JSON file updated.")
+# Save the updated json2 data back to the file
+with open(r"C:\Users\akagr\Downloads\prototypejsontojson.json", "w") as f:
+    json.dump(json2, f, indent=4)
+
+print("Database updated and JSON file updated.")
