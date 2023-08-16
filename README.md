@@ -37,7 +37,7 @@ Download both JSON files and change the path in the python code aswell
 
 Go to project settings in the python and click on the python Interpreter and add "mysql-connector-python" extension to the project 
 
-### Step 6:Run Python code
+### Step 6:Main Optimized Code
 
 ```python
 import json
