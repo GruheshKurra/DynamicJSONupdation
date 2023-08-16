@@ -1,6 +1,5 @@
 ## Dynamic JSON Updation
 
-### config table
 
 ### Step 1:Open your MySQL or MySQL in XAMPP Server
 
