@@ -29,14 +29,18 @@ CREATE TABLE config (
 );
 ```
 
-### Step 4:Pycharm
+### Step 4:Making Changes
+
+ownload both JSON files and change the path in the python code aswell
+
+### Step 5:Pycharm
 
 Go to project settings in the python and click on the python Interpreter and add "mysql-connector-python" extension to the project 
 
-### Step 5:Run Python code
+### Step 6:Run Python code
 
 ```python
-  import json
+import json
 import mysql.connector
 
 # Establish a connection to the database
