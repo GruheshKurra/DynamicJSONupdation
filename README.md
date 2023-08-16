@@ -31,7 +31,7 @@ CREATE TABLE config (
 
 ### Step 4:Making Changes
 
-ownload both JSON files and change the path in the python code aswell
+Download both JSON files and change the path in the python code aswell
 
 ### Step 5:Pycharm
 
