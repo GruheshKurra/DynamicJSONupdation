@@ -1,4 +1,4 @@
-## Database Schema
+## Dynamic JSON Updation
 
 ### config table
 Code to Create a SQL table.
