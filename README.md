@@ -1,7 +1,7 @@
 ## Database Schema
 
 ### config table
-##Code to Create a SQL table.
+Code to Create a SQL table.
 ```sql
 CREATE TABLE config (
   id INT AUTO_INCREMENT PRIMARY KEY,
