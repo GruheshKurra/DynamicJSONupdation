@@ -1,6 +1,7 @@
 ## Database Schema
 
 ### config table
+Here is some `inline code` in a sentence.
 
 ```sql
 CREATE TABLE config (
