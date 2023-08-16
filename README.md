@@ -1,7 +1,7 @@
 ## Dynamic JSON Updation
 
 
-### Step 1:Open your MySQL or MySQL in XAMPP Server
+### Step 1:Open MySQL or MySQL in XAMPP Server
 
 Code to Create a database.
 ```sql
