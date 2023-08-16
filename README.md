@@ -3,16 +3,20 @@
 ### config table
 
 ### Step 1:Open your MySQL or MySQL in XAMPP Server
+
 Code to Create a database.
 ```sql
 CREATE DATABASE prototype;
 ```
 
 ### Step 2:Use the Database
+
 Code to use the database.
 ```sql
 CREATE DATABASE prototype;
 ```
+
+### Step 3:Create a table to store the JSON data.
 
 Code to Create a SQL table(config).
 ```sql
