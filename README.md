@@ -2,9 +2,11 @@
 
 ### config table
 
-### Step 1:Open your MySQL or MySQL in XAMPP Server
+-- Step 1: Open your MySQL or MySQL in XAMPP Server
 
-Code to Create a database.
+-- Code to create a database
+CREATE DATABASE prototype;
+
 ```sql
 CREATE DATABASE prototype;
 ```
