@@ -1,7 +1,20 @@
 ## Dynamic JSON Updation
 
 ### config table
-Code to Create a SQL table.
+
+### Step 1:Open your MySQL or MySQL in XAMPP Server
+Code to Create a database.
+```sql
+CREATE DATABASE prototype;
+```
+
+### Step 2:Use the Database
+Code to use the database.
+```sql
+CREATE DATABASE prototype;
+```
+
+Code to Create a SQL table(config).
 ```sql
 CREATE TABLE config (
   id INT AUTO_INCREMENT PRIMARY KEY,
