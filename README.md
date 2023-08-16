@@ -2,11 +2,13 @@
 
 ### config table
 
-| Column | Type | Default |
-|-|-|-|  
-| id | INT AUTO_INCREMENT PRIMARY KEY | null |
-| environment | VARCHAR(255) | null |
-| section | VARCHAR(255) | null |
-| key | VARCHAR(255) | null | 
-| value | VARCHAR(255) | null |
-| flag | INT | 0 |
+```sql
+CREATE TABLE config (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  environment VARCHAR(255),
+  section VARCHAR(255),
+  `key` VARCHAR(255), 
+  value VARCHAR(255),
+  flag INT DEFAULT 0
+);
+```
