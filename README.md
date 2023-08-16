@@ -1,8 +1,7 @@
 ## Database Schema
 
 ### config table
-Here is some `inline code` in a sentence.
-
+##Code to Create a SQL table.
 ```sql
 CREATE TABLE config (
   id INT AUTO_INCREMENT PRIMARY KEY,
