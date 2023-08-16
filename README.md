@@ -12,7 +12,7 @@ CREATE DATABASE prototype;
 
 Code to use the database.
 ```sql
-CREATE DATABASE prototype;
+USE prototype;
 ```
 
 ### Step 3:Create a table to store the JSON data.
