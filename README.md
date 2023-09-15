@@ -19,14 +19,14 @@ use prototype;
 
 Code to Create a SQL table(config).
 ```sql
-CREATE TABLE config (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  environment VARCHAR(255),
-  section VARCHAR(255),
-  `key` VARCHAR(255), 
-  value VARCHAR(255),
-  flag INT DEFAULT 0
+CREATE TABLE IF NOT EXISTS config (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    environment VARCHAR(255),
+    section VARCHAR(255),
+    `key` VARCHAR(255),
+    value VARCHAR(255)
 );
+
 ```
 
 ### Step 4:Making Changes
@@ -37,180 +37,67 @@ Download both JSON files and change the path in the python code aswell
 
 Go to project settings in the python and click on the python Interpreter and add "mysql-connector-python" extension to the project 
 
-### Step 6:Main Optimized Code
-
-```python
-import json
-import mysql.connector
-
-# Establish a connection to the database
-db = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="sushma",
-    database="prototype"
-)
-cursor = db.cursor()
-
-# Define SQL statements
-insert_sql = """
-  INSERT INTO config (environment, section, key, value, is_updated)
-  VALUES (%s, %s, %s, %s, 1)  
-"""
-update_sql = """
-  UPDATE config 
-  SET value = %s, is_updated = 1
-  WHERE environment = %s AND section = %s AND key = %s
-"""
-check_value_sql = """
-  SELECT value FROM config 
-  WHERE environment = %s AND section = %s AND key = %s
-"""
-
-# Load JSON data from file (json1)
-with open(r"C:\Users\sushm\Downloads\json_1.json") as f:
-    data = json.load(f)
-
-# Update or insert the values from json1 into the database only if they've changed
-for env, env_config in data.items():
-    for section, section_config in env_config.items():
-        for key, value in section_config.items():
-            print(f"Processing env: {env}, section: {section}, key: {key}")  # <-- ADDED
-            cursor.execute(check_value_sql, (env, section, key))
-            row = cursor.fetchone()
-
-            if row:
-                # If the value is different in the database, update it and set is_updated to 1
-                if str(row[0]) != str(value):  # Convert both to string for comparison
-                    print(f"Updating value for env: {env}, section: {section}, key: {key}")  # <-- ADDED
-                    cursor.execute(update_sql, (value, env, section, key))
-            else:
-                print(f"Inserting value for env: {env}, section: {section}, key: {key}")  # <-- ADDED
-                cursor.execute(insert_sql, (env, section, key, value))
-
-# Load json2 data from file
-with open(r"C:\Users\sushm\Downloads\json_2.json", "r") as f:
-    json2 = json.load(f)
-
-# Fetch the updated values from the database
-select_updated_sql = "SELECT environment, section, key, value FROM config WHERE is_updated = 1"
-cursor.execute(select_updated_sql)
-updated_values_from_db = cursor.fetchall()
-
-# Update json2 with the fetched values (only if they exist in json2)
-for env, section, key, value in updated_values_from_db:
-    if env in json2 and section in json2[env] and key in json2[env][section]:
-        print(f"Updating json2 for env: {env}, section: {section}, key: {key}")  # <-- ADDED
-        json2[env][section][key] = value
-
-# Save the updated json2 data back to the file
-with open(r"C:\Users\sushm\Downloads\json_2.json", "w") as f:
-    json.dump(json2, f, indent=4)
-
-# Reset the is_updated column for all rows
-reset_sql = "UPDATE config SET is_updated = 0"
-cursor.execute(reset_sql)
-
-# Commit and close the database connection
-db.commit()
-db.close()
-
-print("Database and JSON file updated.")
-
-```
-
 ### Step 6:Run Python code
 
 ```python
 import json
 import mysql.connector
+from mysql.connector import MySQLConnection, Error
+import time
 
-# Establish a connection to the database
-db = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="Karthik9149111",
-    database="prototype"
-)
-cursor = db.cursor()
+# Define a list of JSON file paths
+json_files = [
+    'C:\\Users\\akagr\\OneDrive\\Desktop\\XtraLeap\\Prototype.json',
+    'C:\\Users\\akagr\\OneDrive\\Desktop\\XtraLeap\\prototype2.json',
+]
 
-# Define SQL statements
-create_table_sql = """
-CREATE TABLE IF NOT EXISTS config (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    environment VARCHAR(255),
-    section VARCHAR(255),
-    `key` VARCHAR(255),
-    value VARCHAR(255),
-    flag INT DEFAULT 0
-);
-"""
-insert_sql = """
-INSERT INTO config (environment, section, `key`, value)
-VALUES (%s, %s, %s, %s)  
-"""
-update_sql = """
-UPDATE config 
-SET value = %s, flag = 1
-WHERE environment = %s AND section = %s AND `key` = %s
-"""
-reset_flags_sql = """
-UPDATE config
-SET flag = 0
-"""
+def fetch_config_data():
+    try:
+        connection = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="",
+            database="prototype"
+        )
+        if connection.is_connected():
+            cursor = connection.cursor(dictionary=True)
+            cursor.execute("SELECT * FROM config")
+            rows = cursor.fetchall()
+            return rows
+    except Error as e:
+        print(f"Error: {e}")
+    finally:
+        cursor.close()
+        connection.close()
+    return []
 
-# Create the table if it doesn't exist
-cursor.execute(create_table_sql)
+def update_json_file(json_file_path):
+    rows = fetch_config_data()
+    if not rows:
+        return
 
-# Reset all flags to 0 before processing updates
-cursor.execute(reset_flags_sql)
-db.commit()
+    # Load existing JSON data from the file
+    with open(json_file_path, 'r') as json_file:
+        existing_data = json.load(json_file)
 
-# Load JSON data from file
-with open(r"C:\Users\akagr\Downloads\Prototype.json") as f:
-    data = json.load(f)
+    # Merge database data into the existing JSON data
+    for row in rows:
+        environment = row['environment']
+        section = row['section']
+        key = row['key']
+        value = row['value']
+        if environment in existing_data and section in existing_data[environment] and key in existing_data[environment][section]:
+            existing_data[environment][section][key] = value
 
-# Load the existing JSON data from file (json2)
-with open(r"C:\Users\akagr\Downloads\prototype2.json", "r") as f:
-    json2 = json.load(f)
+    # Save the updated JSON data back to the file
+    with open(json_file_path, 'w') as json_file:
+        json.dump(existing_data, json_file, indent=4)
+    print(f"JSON file '{json_file_path}' updated successfully")
 
-# Dictionary to keep track of updated values
-updated_values = {}
-
-for env, env_config in data.items():
-    for section, section_config in env_config.items():
-        for key, value in section_config.items():
-            # Check if row exists
-            select_sql = "SELECT value FROM config WHERE environment = %s AND section = %s AND `key` = %s"
-            cursor.execute(select_sql, (env, section, key))
-            row = cursor.fetchone()
-
-            if row:
-                # Compare current value with existing value
-                if row[0] != value:
-                    # Update existing row
-                    values = (value, env, section, key)
-                    cursor.execute(update_sql, values)
-                    updated_values[(env, section, key)] = value
-            else:
-                # Insert new row
-                values = (env, section, key, value)
-                cursor.execute(insert_sql, values)
-
-# Commit and close the database connection
-db.commit()
-db.close()
-
-# Update json2 with the data from the database
-for (env, section, key), value in updated_values.items():
-    if env in json2 and section in json2[env] and key in json2[env][section]:
-        json2[env][section][key] = value
-
-# Save the updated json2 data back to the file
-with open(r"C:\Users\akagr\Downloads\prototype2.json", "w") as f:
-    json.dump(json2, f, indent=4)
-
-print("Database updated and JSON file updated.")
+while True:
+    for json_file_path in json_files:
+        update_json_file(json_file_path)
+    time.sleep(3600)
 
 ```
 
