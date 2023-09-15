@@ -1,0 +1,23 @@
+{
+    "development": {
+        "database": {
+            "connectionString": "Server=(devdb)\\mssqllocaldb;Database=IdentityServer4Admin;Trusted_Connection=True;MultipleActiveResultSets=true",
+            "maxConnections": "24",
+            "timeout": "34",
+            "backupEnabled": "2",
+            "backupFrequency": "daily"
+        },
+        "logging": {
+            "level": "debugging",
+            "logToFile": "1",
+            "logFilePath": "/var/log/app_dev.logger",
+            "maxFileSize": "12MB"
+        },
+        "api": {
+            "baseUrl": "http://api.dev.example.com",
+            "timeout": "999",
+            "corsEnabled": "1",
+            "maxRequestPerMinute": "7000"
+        }
+    }
+}
