@@ -1,0 +1,112 @@
+{
+    "development": {
+        "database": {
+            "connectionString": "Server=(devdb)\\mssqllocaldb;Database=IdentityServer4Admin;Trusted_Connection=True;MultipleActiveResultSets=true",
+            "maxConnections": "24",
+            "timeout": "34",
+            "backupEnabled": "2",
+            "backupFrequency": "daily-1"
+        },
+        "logging": {
+            "level": "debugging",
+            "logToFile": "1",
+            "logFilePath": "/var/log/app_dev.logger",
+            "maxFileSize": "12MB"
+        },
+        "api": {
+            "baseUrl": "http://api.dev.example.com",
+            "timeout": "999",
+            "corsEnabled": "1",
+            "maxRequestPerMinute": "7000"
+        },
+        "email": {
+            "smtpServer": "smtp.dev.example.com",
+            "port": "908",
+            "username": "user@example.com",
+            "password": "dev_email_password",
+            "senderEmail": "noreply@dev.example.com",
+            "defaultTemplate": "default_template.html"
+        },
+        "cache": {
+            "enabled": "1",
+            "maxSize": "100MB",
+            "expirationTime": "600"
+        },
+        "api2": {
+            "baseUrl": "http://api.dev.example.com",
+            "timeout": "999",
+            "corsEnabled": "1",
+            "maxRequestPerMinute": "7000",
+            "maxFileSize1": "12MB"
+        }
+    },
+    "QA": {
+        "database": {
+            "connectionString": "Server=(qadb)\\mssqllocaldb;Database=IdentityServer4Admin;Trusted_Connection=True;MultipleActiveResultSets=true",
+            "maxConnections": "100",
+            "timeout": "20",
+            "backupEnabled": "1",
+            "backupFrequency": "weekly"
+        },
+        "logging": {
+            "level": "info",
+            "logToFile": "1",
+            "logFilePath": "/var/log/app_qa.log",
+            "maxFileSize": "5MB"
+        },
+        "api": {
+            "baseUrl": "http://api.qa.example.com",
+            "timeout": "3000",
+            "corsEnabled": "0",
+            "maxRequestPerMinute": "599945",
+            "maxFileSize2": "5MB"
+        },
+        "email": {
+            "smtpServer": "smtp.qa.example.com",
+            "port": "587",
+            "username": "user@example.com",
+            "password": "qa_email_password",
+            "senderEmail": "noreply@qa.example.com",
+            "defaultTemplate": "default_template.html"
+        },
+        "cache": {
+            "enabled": "1",
+            "maxSize": "50MB",
+            "expirationTime": "900"
+        }
+    },
+    "production": {
+        "database": {
+            "connectionString": "Server=(proddb)\\mssqllocaldb;Database=IdentityServer4Admin;Trusted_Connection=True;MultipleActiveResultSets=true",
+            "maxConnections": "200",
+            "timeout": "15",
+            "backupEnabled": "1",
+            "backupFrequency": "monthly"
+        },
+        "logging": {
+            "level": "warning",
+            "logToFile": "0",
+            "maxFileSize": "20MB"
+        },
+        "api": {
+            "baseUrl": "https://api.example.com",
+            "timeout": "1000",
+            "corsEnabled": "1",
+            "maxRequestPerMinute": "2000"
+        },
+        "email": {
+            "smtpServer": "smtp.example.com",
+            "port": "587",
+            "username": "user_name@example.com",
+            "password": "prod_email_password",
+            "senderEmail": "noreply@example.com",
+            "defaultTemplate": "default_template.html"
+        },
+        "cache": {
+            "enabled": "1",
+            "maxSize": "200MB",
+            "expirationTime": "1200",
+            "expirationTime-1": "120024"
+        }
+    }
+}
